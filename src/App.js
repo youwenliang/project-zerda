@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import './App.css';
 
 class App extends Component {
+
   render() {
     return (
       <div className="App">
         <BrowserChrome/>
         <div id="content">
-          {/* <iframe src="https://www.google.com"></iframe>*/}
+          {/*<iframe title="website" id="iframe" width="100%" src="https://youwenliang.github.io/web-payment" frameBorder="0" scrolling="no"/>*/}
         </div>
       </div>
     );
