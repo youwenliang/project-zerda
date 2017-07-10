@@ -48,23 +48,3 @@ app.scroll(function(){
 	lastScrollTop = st;
 	
 });
-
-// document.getElementById('iframe').onload = function(){
-// 	this.style.height = this.contentWindow.document.body.scrollHeight + 'px';
-// }
-
-// var getImageURL = function(url){
-// 	$.ajax({
-// 	    type: "GET",
-// 	    url: 'http://api.page2images.com/restfullink?p2i_url='+url+'&p2i_key=68cae95553779311&p2i_device=2',
-// 	    dataType: 'json',
-// 	    error: function(){
-// 	        alert('Unable to load feed, Incorrect path or invalid feed');
-// 	    },
-// 	    success: function(xml){
-// 	    	console.log(xml);
-// 	        var image_url = xml.image_url;
-// 	        $('#website').attr('src', image_url);
-// 	    }
-// 	});
-// };
