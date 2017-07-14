@@ -1,6 +1,20 @@
 {
-  "main.css": "static/css/main.2dd8e722.css",
-  "main.css.map": "static/css/main.2dd8e722.css.map",
-  "main.js": "static/js/main.6c8ec05f.js",
-  "main.js.map": "static/js/main.6c8ec05f.js.map"
+  "main.css": "static/css/main.53a401c0.css",
+  "main.css.map": "static/css/main.53a401c0.css.map",
+  "main.js": "static/js/main.fb2040a5.js",
+  "main.js.map": "static/js/main.fb2040a5.js.map",
+  "static/media/addhome.svg": "static/media/addhome.6265dee1.svg",
+  "static/media/check.svg": "static/media/check.ab4414b7.svg",
+  "static/media/clear.svg": "static/media/clear.836f44ab.svg",
+  "static/media/dk-logo.png": "static/media/dk-logo.ce3fd1ca.png",
+  "static/media/download.svg": "static/media/download.6f265606.svg",
+  "static/media/history.svg": "static/media/history.fe2f81b7.svg",
+  "static/media/menu_back.svg": "static/media/menu_back.758a43c3.svg",
+  "static/media/menu_info.svg": "static/media/menu_info.8b6fe623.svg",
+  "static/media/menu_next.svg": "static/media/menu_next.326964a5.svg",
+  "static/media/menu_refresh.svg": "static/media/menu_refresh.c1a110e3.svg",
+  "static/media/settings.svg": "static/media/settings.7cc489b8.svg",
+  "static/media/share.svg": "static/media/share.1fc22bcd.svg",
+  "static/media/subscribe-white.svg": "static/media/subscribe-white.8f6d2abf.svg",
+  "static/media/subscribe.svg": "static/media/subscribe.c9eab304.svg"
 }
