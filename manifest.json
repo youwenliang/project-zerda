@@ -1,15 +1,16 @@
 {
-  "short_name": "Project Zerda",
-  "name": "Project Zerda",
+  "name": "Project Zerda"
+  "short_name": "Zerda",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "Project Zerda"
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "images/logo_192.png",
       "sizes": "192x192",
       "type": "image/png"
     }
   ],
   "start_url": "./index.html",
-  "display": "standalone",
-  "theme_color": "#f9f9fa",
-  "background_color": "#ffffff"
+  "theme_color": "#f9f9fa"
 }
