@@ -1,5 +1,5 @@
 # Project Zerda
-Instructions:
+### Instructions:
 1. Download Chrome Dev#
 2. Open link: https://youwenliang.github.io/project-zerda in Chrome Dev
 3. Click Menu and select “Add to home screen”
