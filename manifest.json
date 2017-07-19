@@ -3,7 +3,7 @@
   "name": "Project Zerda",
   "icons": [
     {
-      "src": "/logo_192.png",
+      "src": "logo_192.png",
       "sizes": "192x192",
       "type": "image/png"
     }
