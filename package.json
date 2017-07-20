@@ -4,8 +4,14 @@
   "private": true,
   "dependencies": {
     "jquery": "^3.2.1",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "react-localize-redux": "^2.2.0",
+    "react-native": "^0.42.3",
+    "react-native-android-back-button": "^0.3.0",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.2",
+    "reselect": "^3.0.1"
   },
   "devDependencies": {
     "gh-pages": "^1.0.0",

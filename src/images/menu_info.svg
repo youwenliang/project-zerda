@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.2 (43514) - http://www.bohemiancoding.com/sketch -->
+    <title>Page 1</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="-" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Nexus-5---MDPI---Active-Copy" transform="translate(-302.000000, -556.000000)" fill="#272727">
+            <g id="Page-1" transform="translate(302.000000, 556.000000)">
+                <path d="M12,2.4 C6.7068,2.4 2.4,6.7068 2.4,12 C2.4,17.2932 6.7068,21.6 12,21.6 C17.2932,21.6 21.6,17.2932 21.6,12 C21.6,6.7068 17.2932,2.4 12,2.4 M12,24 C5.3832,24 0,18.6168 0,12 C0,5.3832 5.3832,0 12,0 C18.6168,0 24,5.3832 24,12 C24,18.6168 18.6168,24 12,24" id="Fill-1"></path>
+                <path d="M12.3,18 L11.7,18 C11.2032,18 10.8,17.5968 10.8,17.1 L10.8,11.7 C10.8,11.2032 11.2032,10.8 11.7,10.8 L12.3,10.8 C12.7968,10.8 13.2,11.2032 13.2,11.7 L13.2,17.1 C13.2,17.5968 12.7968,18 12.3,18" id="Fill-3"></path>
+                <path d="M12.3,8.4 L11.7,8.4 C11.2032,8.4 10.8,7.9968 10.8,7.5 L10.8,6.9 C10.8,6.4032 11.2032,6 11.7,6 L12.3,6 C12.7968,6 13.2,6.4032 13.2,6.9 L13.2,7.5 C13.2,7.9968 12.7968,8.4 12.3,8.4" id="Fill-5"></path>
+            </g>
+        </g>
+    </g>
+</svg>

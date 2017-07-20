@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="22px" viewBox="0 0 23 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.2 (43514) - http://www.bohemiancoding.com/sketch -->
+    <title>menu_back</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="-" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Nexus-5---MDPI---Active-Copy" transform="translate(-35.000000, -556.000000)">
+            <g id="ios_bottomNav-panel-back" transform="translate(34.000000, 555.000000)">
+                <rect id="25" fill-opacity="0" fill="#1AEAFF" opacity="0.25" x="0" y="0" width="24" height="24"></rect>
+                <g id="Group-6" stroke-width="1" transform="translate(12.000000, 12.500000) scale(-1, 1) translate(-12.000000, -12.500000) translate(2.000000, 3.000000)" stroke="#272727" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline id="Stroke-1-Copy" stroke-width="3" transform="translate(14.930748, 9.192783) scale(-1, 1) translate(-14.930748, -9.192783) " points="19.0766073 0 10.7848892 9.19278253 19.0766073 18.3855651"></polyline>
+                    <path d="M0.255723466,9.42857143 L16.8391595,9.42857143" id="Stroke-3-Copy" stroke-width="3" transform="translate(8.547442, 11.000000) scale(-1, 1) translate(-8.547442, -11.000000) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -8,63 +8,64 @@ import $ from 'jquery';
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
 
-
-var url = $('input[name="url"]');
-url.click(function() {
-	url.select();
-	$('.nav-button').addClass('move');
-	$('#search').css('display', 'none');
-	$('input').css('padding-left', '15px');
-});
-
-$('.nav-button:nth-child(4)').click(function() {
-	$('.nav-button').removeClass('move');
-	$('#search').css('display', 'flex');
-	$('input').css('padding-left', '0px');
+/** Menu **/
+var menu = $('#menu');
+menu.click(function(e){
+	$('#mask').addClass('active');
+	$('#menu-panel').toggleClass('active');
 })
 
-url.keyup(function(event) {
-	event.preventDefault();
-	if (event.keyCode === 13) {
-    	console.log(url.val());
-    	url.blur();
-    }
-});
+$('#mask').click(function(){
+	$('#menu-panel').removeClass('active');
+	$('#mask').removeClass('active');
+	if($('.modal').hasClass('active')) $('.modal').removeClass('active');
+})
 
-var lastScrollTop = 0;
-var scrollCount = 0;
-var app = $('.App');
-var nav = $('.nav');
-app.scroll(function(){
-	var st = $(window).pageYOffset || app.scrollTop();
-	if(st > lastScrollTop) {
-		scrollCount += (st-lastScrollTop);
-		if(scrollCount > 80) nav.addClass('hidden');
-	}
+/** Settings **/
+var settings = $('#menu-settings');
+settings.click(function(e){
+	e.stopPropagation();
+	$('#mask').removeClass('active');
+	$('#menu-panel').toggleClass('active');
+	$('#settings-panel').addClass('active');
+})
+
+$('#settings-close').click(function(){
+	$('#settings-panel').removeClass('active');		
+})
+
+/** Subscribe **/
+var subscribe = $('#menu-subscribe');
+subscribe.click(function(e){
+	// e.stopPropagation();
+	if($(this).hasClass('fade') || $(this).hasClass('subscribed')) ;
 	else {
-		nav.removeClass('hidden');
-		scrollCount = 0;
+		$('#menu-panel').toggleClass('active');
+		$('#mask').removeClass('active');
+		// $('#subscribe-modal').addClass('active');
+		$('#toast').addClass('active');
+		setTimeout(function(){
+			$('#toast').removeClass('active');
+		},3300);
 	}
-	lastScrollTop = st;
-	
+})
+
+$('.modal .button').click(function(){
+	$('#subscribe-modal').removeClass('active');
+	$('#mask').removeClass('active');
 });
 
-// document.getElementById('iframe').onload = function(){
-// 	this.style.height = this.contentWindow.document.body.scrollHeight + 'px';
-// }
+$('#subscribe-ok').click(function(){
+	$('#toast').addClass('active');
+	setTimeout(function(){
+		$('#toast').removeClass('active');
+	},3300);
+})
 
-// var getImageURL = function(url){
-// 	$.ajax({
-// 	    type: "GET",
-// 	    url: 'http://api.page2images.com/restfullink?p2i_url='+url+'&p2i_key=68cae95553779311&p2i_device=2',
-// 	    dataType: 'json',
-// 	    error: function(){
-// 	        alert('Unable to load feed, Incorrect path or invalid feed');
-// 	    },
-// 	    success: function(xml){
-// 	    	console.log(xml);
-// 	        var image_url = xml.image_url;
-// 	        $('#website').attr('src', image_url);
-// 	    }
-// 	});
-// };
+$(window).click(function(){
+	$('.dropdown').removeClass('active');
+})
+
+$('#action-refresh').click(function(){
+	// window.location.href = window.location.href;
+})

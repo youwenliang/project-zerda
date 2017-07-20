@@ -1,15 +1,31 @@
 {
-  "short_name": "Project Zerda",
-  "name": "Project Zerda",
+  "short_name": "Zerda",
+  "name": "Zerda",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "logo_192.png",
       "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo_256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "logo_384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "logo_512.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ],
   "start_url": "./index.html",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#f9f9fa",
+  "background_color": "#7fc6d1",
+  "orientation": "portrait"
 }
