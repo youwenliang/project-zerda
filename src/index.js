@@ -16,9 +16,12 @@ menu.click(function(e){
 })
 
 $('#mask').click(function(){
-	$('#menu-panel').removeClass('active');
-	$('#mask').removeClass('active');
-	if($('.modal').hasClass('active')) $('.modal').removeClass('active');
+	if($(this).hasClass('none'));
+	else {
+		$('#menu-panel').removeClass('active');
+		$('#mask').removeClass('active');
+		if($('.modal').hasClass('active')) $('.modal').removeClass('active');
+	}
 })
 
 /** Settings **/

@@ -5,15 +5,17 @@ import './App.css'
 var onboarding = 1;
 var subscribed = [true, true, true];
 var sites = [false, false, false, false];
+var sites_sub = [false, false, false, false];
 var gotit = false;
 var globalTimeout = null;
 var globalTime = 1000;
 var goOnline = false;
 var loaded = " load";
 var online = "";
-var date = ["","","","","","",""];
+var date = ["...","...","...","...","...","...","..."];
+var mobile = ["","","",""];
 
-var language = 'en'; // Language EN or ID
+var language = 'id'; // Language EN or ID
 
 class App extends Component {
   constructor(props) {
@@ -32,6 +34,14 @@ class App extends Component {
       site: "home"
     });
     goOnline = false;
+    mobile = ["","","",""];
+
+    for(var i = 0; i < 4; i++){
+      sites[i] = sites_sub[i];
+    }
+    console.log(sites);
+    console.log(sites_sub);
+
     if(globalTimeout!=null) clearTimeout(globalTimeout);
     document.getElementById('loading-mask').classList.remove('active');
     document.getElementById('online').classList.remove('active');
@@ -67,9 +77,12 @@ class App extends Component {
 
   online = () => {
     goOnline = true;
+    this.update();
+    console.log(goOnline);
     if(this.state.isSubscribed) {
       document.getElementById('menu-panel').classList.remove('active');
       document.getElementById('mask').classList.add('active');
+      document.getElementById('mask').classList.add('none');
       document.getElementById('download-modal').classList.add('active');
     } else {
       window.location.href = window.location.href;
@@ -87,7 +100,7 @@ class App extends Component {
         <Content site={this.state.site} update = {this.update.bind(this)} leaveHome = {this.leaveHome.bind(this) }/>
         <Menu isSubscribed = {this.state.isSubscribed} isHome = {this.state.isHome} site={this.state.site} subscribe = {this.subscribe.bind(this)} online = {this.online.bind(this)}/>
         <Download update = {this.update.bind(this)} site={this.state.site}/>
-        <Settings/>
+        <Settings update = {this.update.bind(this)}/>
         <div id="mask"></div>
         <OnboardingInfo/>
         <div id="loading-mask"></div>
@@ -137,10 +150,15 @@ class OnboardingInfo extends Component {
 class Menu extends Component {
 
   startSubscribe = () => {
+    console.log(sites);
+    console.log(sites_sub);
+    console.log("!--!");
     var sbutton = document.getElementById('menu-subscribe');
     sbutton.classList.add('subscribed');
     this.props.subscribe();
-    sites[this.props.site.split('site')[1] - 1] = true;
+    sites_sub[this.props.site.split('site')[1] - 1] = true;
+    console.log(sites);
+    console.log(sites_sub);
     document.getElementById('online').classList.add('active');
 
     var d = new Date();
@@ -212,7 +230,12 @@ class Menu extends Component {
 }
 
 class Settings extends Component {
-  
+  switchLan = () => {
+    if(language === 'en') language = 'id';
+    else language = 'en';
+    this.props.update();
+  }
+
   render() {
     return (
       <div id="settings-panel">
@@ -225,33 +248,33 @@ class Settings extends Component {
             <h2>{strings.settingsDataSaving[language]}</h2>
             <div className="toggle">
               <p>{strings.settingsBlock1[language]}</p>
-              <input type="checkbox" id="check-1" className="cbx hidden"/>
+              <input type="checkbox" id="check-1" className="cbx hidden" defaultChecked/>
               <label htmlFor="check-1" className="lbl"></label>
             </div>
             <div className="toggle">
               <p>{strings.settingsBlock2[language]}</p>
-              <input type="checkbox" id="check-2" className="cbx hidden"/>
+              <input type="checkbox" id="check-2" className="cbx hidden" defaultChecked/>
               <label htmlFor="check-2" className="lbl"></label>
             </div>
             <div className="toggle">
               <p>{strings.settingsBlock3[language]}</p>
-              <input type="checkbox" id="check-3" className="cbx hidden"/>
+              <input type="checkbox" id="check-3" className="cbx hidden" />
               <label htmlFor="check-3" className="lbl"></label>
             </div>
             <div className="toggle">
               <p>{strings.settingsBlock4[language]}</p>
-              <input type="checkbox" id="check-4" className="cbx hidden"/>
+              <input type="checkbox" id="check-4" className="cbx hidden" defaultChecked/>
               <label htmlFor="check-4" className="lbl"></label>
             </div>
             <div className="toggle">
               <p>{strings.settingsBlock5[language]}</p>
-              <input type="checkbox" id="check-5" className="cbx hidden"/>
+              <input type="checkbox" id="check-5" className="cbx hidden" />
               <label htmlFor="check-5" className="lbl"></label>
             </div>
           </section>
           <section>
             <h2>{strings.settingsGeneral[language]}</h2>
-            <div className="toggle">
+            <div className="toggle" onClick={this.switchLan}>
               <p>{strings.settingsLanguage[language]} <br/> <span>{strings.settingsSDefault[language]}</span></p>
             </div>
           </section>
@@ -281,11 +304,17 @@ class Download extends Component {
   cancel = () => {
     goOnline = false;
     document.getElementById('mask').classList.remove('active');
+    document.getElementById('mask').classList.remove('none');
     document.getElementById('download-modal').classList.remove('active');
+    var temp = this;
+    setTimeout(function(){
+      temp.props.update();
+    },200);
   }
 
   ok = () => {
     document.getElementById('mask').classList.remove('active');
+    document.getElementById('mask').classList.remove('none');
     document.getElementById('download-modal').classList.remove('active');
 
     if(!goOnline) {
@@ -298,6 +327,7 @@ class Download extends Component {
 
     } else {
       console.log("online!");
+      mobile[3] = " mobile";
       document.getElementById('loading-mask').classList.add('active');
       globalTimeout = setTimeout(function(){
         document.getElementById('loading-mask').classList.remove('active');
@@ -324,14 +354,21 @@ class Download extends Component {
 
   render() {
     let text = null;
+    let title = null;
+    console.log(goOnline+"???");
     
-    if(goOnline) text = <p>{strings.browseOnline[language]}</p>
-    else text = <p>{strings.browseLink[language]}</p>
-
+    if(goOnline) {
+      text = <p>{strings.browseOnline[language]}</p>
+      title = <h2>{strings.browseUpdate[language]}</h2>
+    } 
+    else {
+      text = <p>{strings.browseLink[language]}</p>
+      title = <h2>{strings.browseMobile[language]}</h2>
+    }
     return (
       <div className="modal" id="download-modal">
         <div className="modal-info">
-          <h2>{strings.browseMobile[language]}</h2>
+          {title}
           {text}
         </div>
         <div className="modal-action">
@@ -418,6 +455,7 @@ class Onboarding extends Component {
     this.setState({
       stage: s
     });
+    var temp = this;
     setTimeout(function(){
       loaded = "";
       console.log("loaded!");
@@ -425,15 +463,16 @@ class Onboarding extends Component {
       for(var i = 0; i < len; i++) {
         document.querySelectorAll('.load')[0].classList.remove('load');
       }
-    },globalTime+800);
+      var d = new Date();
+      var curr_time = ('0'+d.getHours().toString()).slice(-2)+":"+('0'+d.getMinutes().toString()).slice(-2);
+      var curr_date = d.getDate();
+      var curr_month = d.getMonth() + 1; //Months are zero based
+      var curr_year = d.getFullYear();
+      var now = curr_month + "/" + curr_date +"/" + curr_year + " " + curr_time;
+      for (var j = 0; j < 7; j++) date[j] = now;
+      temp.props.update();
 
-    var d = new Date();
-    var curr_time = ('0'+d.getHours().toString()).slice(-2)+":"+('0'+d.getMinutes().toString()).slice(-2);
-    var curr_date = d.getDate();
-    var curr_month = d.getMonth() + 1; //Months are zero based
-    var curr_year = d.getFullYear();
-    var now = curr_month + "/" + curr_date +"/" + curr_year + " " + curr_time;
-    for (var i = 0; i < 7; i++) date[i] = now;
+    },globalTime+800);
   }
   jumpStage = (e) => {
     onboarding = 3;
@@ -618,7 +657,7 @@ class Content extends Component {
   }
 
   openModal = (e) => {
-    if(!sites[3]) {
+    if(!sites[3] || mobile[3] === " mobile") {
       document.getElementById('fakepage').classList.add('active');
       document.getElementById('loading-mask').classList.add('active');
       globalTimeout = setTimeout(function(){
@@ -629,6 +668,7 @@ class Content extends Component {
       goOnline = false;
       this.props.update();
       document.getElementById('mask').classList.add('active');
+      document.getElementById('mask').classList.add('none');
       document.getElementById('download-modal').classList.add('active');
     }
   }
@@ -636,10 +676,10 @@ class Content extends Component {
   nextPage = (e) => {
     document.getElementById('link').classList.add('active');
     document.getElementById('link-2').classList.add('active');
-    this.changeURL("http://sains.kompas.com/read/2017/07/19...");
+    this.changeURL("http://sains.kompas.com/read/2017/07/...");
     document.getElementById('site4-page').classList.add('next');
 
-    if(!sites[3]) {
+    if(!sites[3] || mobile[3] !== "") {
       document.getElementById('loading-mask').classList.add('active');
       globalTimeout = setTimeout(function(){
         document.getElementById('loading-mask').classList.remove('active');
@@ -668,26 +708,23 @@ class Content extends Component {
 
   visitSiteNew = (e) => {
     var siteId = e.target.dataset.attr;
-    if(!sites[siteId.split('site')[1]-1]) {
-      document.getElementById('loading-mask').classList.add('active');
-      globalTimeout = setTimeout(function(){
-        document.getElementById('loading-mask').classList.remove('active');
-      },globalTime);
-      document.getElementById('online').classList.remove('active');
-    } else {
-      document.getElementById('online').classList.add('active');
-    }
-    if(e.target.classList.contains('true')) {
-      this.setState({
-        site: siteId,
-        subscribed: true
-      })
-    } else {
-      this.setState({
-        site: siteId,
-        subscribed: false
-      })
-    }
+    mobile[siteId.split('site')[1] - 1] = " mobile";
+
+    document.getElementById('loading-mask').classList.add('active');
+    globalTimeout = setTimeout(function(){
+      document.getElementById('loading-mask').classList.remove('active');
+    },globalTime);
+    // if(e.target.classList.contains('true')) {
+    //   this.setState({
+    //     site: siteId,
+    //     subscribed: true
+    //   })
+    // } else {
+    //   this.setState({
+    //     site: siteId,
+    //     subscribed: false
+    //   })
+    // }
     this.props.leaveHome(siteId);
     document.querySelector('.App').scrollTop = 0;
     if(!gotit) {
@@ -700,6 +737,33 @@ class Content extends Component {
       document.getElementById('menu-subscribe').classList.add('active');
       document.getElementById('action-refresh').classList.toggle('fade');
     }
+  }
+
+  last = (s) => {
+    console.log(s);
+    if(s!=="...") {
+      var hr = s.split(' ')[1].split(':')[0];
+      var min = s.split(' ')[1].split(':')[1];
+
+      var d = new Date();
+      var dhr = parseInt(d.getHours(),10) - parseInt(hr,10);
+      var dmin = parseInt(d.getMinutes(),10) - parseInt(min,10);
+
+      if(dhr > 1) return "Updated "+dhr+" hrs ago";
+      else if(dhr < 1) {
+        if(dmin === 0) return "Updated just now";
+        else if(dmin === 1) return "Updated 1 min ago";
+        else if(dmin > 1) return "Updated "+dmin+" mins ago";
+      } else if(dhr === 1) {
+        if(dmin < 0 && dmin > -59) return "Updated "+ (60+parseInt(dmin,10)) +" mins ago";
+        else if(dmin === -59) return "Updated 1 min ago";
+        else return "Updated 1 hr ago"
+      }
+    }
+  }
+
+  update = () => {
+    this.props.update();
   }
 
   render() {
@@ -717,29 +781,29 @@ class Content extends Component {
               </ul>
             </div>
             {console.log("---")}
-            <div id="divider">{strings.subscription[language]}</div>
-            <Onboarding visitSite = {this.visitSite.bind(this)}/>
+            <div id="divider" className={language}>{strings.subscription[language]}</div>
+            <Onboarding visitSite = {this.visitSite.bind(this)} update = {this.update.bind(this)}/>
             {console.log("---")}
           </div>
         );
       case "site1":
         return (
           <div className="page">
-            <div className={"url " + sites[0]}><i className="material-icons">lock</i>{"https://www.facebook.com"}</div>
+            <div className={"url " + sites[0] + mobile[0]} data-time={this.last(date[0])}><i className="material-icons">lock</i>{"https://www.facebook.com"}</div>
             <div className="sites" id="site1-page"></div>
           </div>
         );  
       case "site2":
         return (
           <div className="page">
-            <div className={"url " + sites[1]}><i className="material-icons">lock</i>{"https://www.youtube.com"}</div>
+            <div className={"url " + sites[1] + mobile[1]} data-time={this.last(date[1])}><i className="material-icons">lock</i>{"https://www.youtube.com"}</div>
             <div className="sites" id="site2-page"></div>
           </div>
         );  
       case "site3":
         return (
           <div className="page">
-            <div className={"url " + sites[2]}><i className="material-icons">lock</i>{"https://www.google.com"}</div>
+            <div className={"url " + sites[2] + mobile[2]} data-time={this.last(date[2])}><i className="material-icons">lock</i>{"https://www.google.com"}</div>
             <div className="sites" id="site3-page"></div>
           </div>
         );  
@@ -747,7 +811,7 @@ class Content extends Component {
         return (
           <div className="page">
             {console.log("---")}
-            <div className={"url " + sites[3]}><i className="material-icons">lock</i>{"https://www.kompas.com"}</div>
+            <div className={"url " + sites[3] + mobile[3]} data-time={this.last(date[3])}><i className="material-icons">lock</i>{"https://www.kompas.com"}</div>
             <div className={"sites"+online} id="site4-page"></div>
             <div id="link" onClick={this.openModal}>link</div>
             <div id="link-2" onClick={this.nextPage}>link2</div>
@@ -756,21 +820,21 @@ class Content extends Component {
       case "sub1":
         return (
           <div className="page">
-            <div className="url true"><i className="material-icons">lock</i>{"https://www.tribunnews.com"}</div>
+            <div className="url true" data-time={this.last(date[4])}><i className="material-icons">lock</i>{"https://www.tribunnews.com"}</div>
             <div className="sites" id="sub1-page"></div>
           </div>
         );  
       case "sub2":
         return (
           <div className="page">
-            <div className="url true"><i className="material-icons">lock</i>{"https://www.detik.com"}</div>
+            <div className="url true" data-time={this.last(date[5])}><i className="material-icons">lock</i>{"https://www.detik.com"}</div>
             <div className="sites" id="sub2-page"></div>
           </div>
         );  
       case "sub3":
         return (
           <div className="page">
-            <div className="url true"><i className="material-icons">lock</i>{"https://www.liputan6.com"}</div>
+            <div className="url true" data-time={this.last(date[6])}><i className="material-icons">lock</i>{"https://www.liputan6.com"}</div>
             <div className="sites" id="sub3-page"></div>
           </div>
         );   
@@ -784,54 +848,56 @@ export default App;
 
 
 
+//Fill in the 'id' that is the translation of ‘en’
+
 var strings = {
   topSites: {
     'en': 'Top Sites',
-    'id': 'Top Sites'
+    'id': 'Situs Top'
   },
   subscription: {
-    'en': 'Subscription',
-    'id': 'Abonemen'
+    'en': 'Followed',
+    'id': 'Situs Yang Difollow'
   },
   saveData: {
     'en': 'Save data and read offline',
-    'id': 'Menyimpan data dan membaca secara offline'
+    'id': 'Follow dan baca situs tanpa kuota'
   },
   saveDataContent: {
-    'en': 'Browse your favorite site without costing mobile data. Start by subscribing popular sites so we can save it for you whenever WI-FI is on.',
-    'id': 'Menelusuri situs favorit Anda tanpa biaya data seluler. Mulai dengan berlangganan situs populer sehingga kita dapat menyimpannya untuk Anda setiap kali WI-FI adalah pada.'
+    'en': 'Follow your favorite site without costing data. We\'ll keep the site up to date whenever WI-FI is on so you can read them anytime you want.',
+    'id': 'Ikuti terus update situs favorit anda tanpa kuota. Kami akan men-download isinya hanya sewaktu anda menggunakan koneksi wi-fi, supaya anda bisa membacanya kapan saja.'
   },
   saveDataContentFalse: {
     'en': 'No, thanks',
-    'id': 'Tidak, terima kasih'
+    'id': 'Tidak'
   },
   saveDataContentTrue: {
-    'en': 'Subscribe',
-    'id': 'Berlangganan'
+    'en': 'Follow',
+    'id': 'Follow'
   },
   updated: {
     'en': 'Last updated',
-    'id': 'Terakhir diperbarui'
+    'id': 'Terakhir diupdate pada tanggal'
   },
   menuDownload: {
     'en': 'Download',
     'id': 'Download'
   },
   menuSubscribe: {
-    'en': 'Subscribe',
-    'id': 'Berlangganan'
+    'en': 'Follow',
+    'id': 'Follow'
   },
   menuUnsubscribe: {
-    'en': 'Unsubscribe',
-    'id': 'Berhenti berlangganan'
+    'en': 'Unfollow',
+    'id': 'Berhenti follow'
   },
   menuClear: {
-    'en': 'Clear Space',
-    'id': 'Ruang Kosong'
+    'en': 'Clean Space',
+    'id': 'Bersihkan data'
   },
   menuHistory: {
     'en': 'History',
-    'id': 'Sejarah'
+    'id': 'Riwayat'
   },
   menuShare: {
     'en': 'Share',
@@ -839,79 +905,83 @@ var strings = {
   },
   menuAddHome: {
     'en': 'Add to home screen',
-    'id': 'Tambahkan ke layar rumah'
+    'id': 'Tambahkan ke Layar Utama'
   },
   menuSettings: {
     'en': 'Settings',
-    'id': 'Pengaturan'
+    'id': 'Setelan'
   },
   menuOnline: {
     'en': 'View page online',
-    'id': 'Lihat halaman secara online'
+    'id': 'Lihat halaman memakai kuota'
   },
   subscribeTitle: {
-    'en': 'Subscribe anytime!',
-    'id': 'Berlangganan kapan saja!'
+    'en': 'Follow any site you like!',
+    'id': 'Ikuti situs favorit anda!'
   },
   subscribeContent: {
-    'en': 'Browse your favorite site without costing mobile data. Tap one the subscribe in the menu so we can update it for you whenever Wi-Fi is on.',
-    'id': 'Menelusuri situs favorit Anda tanpa biaya data seluler. Ketuk salah satu berlangganan di menu sehingga kita dapat memperbaruinya untuk Anda setiap kali Wi-Fi aktif.'
+    'en': 'When you find any interesting site, tap the Follow button in the menu so we can save and update it whenever Wi-Fi is on.',
+    'id': 'Sewaktu anda menemukan situs yang menarik, tap tombol Follow di dalam menu di bawah ini. Kami akan men-downloadnya sewaktu anda menggunakan koneksi wi-fi.'
   },
   subscribeOK: {
     'en': 'Got it',
-    'id': 'Mengerti'
+    'id': 'OK'
   },
   subscribeToast: {
-    'en': 'Site subscribed! We’ll update the site whenever Wi-Fi is available.',
-    'id': 'Situs berlangganan! Kami akan memperbarui situs setiap kali Wi-Fi tersedia.'
+    'en': 'Site followed! We\'ll keep the site update whenever Wi-Fi is available.',
+    'id': 'OK. Kami akan men-download isi situs ini sewaktu anda menggunakan koneksi wi-fi.'
   },
   cancel: {
     'en': 'Cancel',
-    'id': 'Membatalkan'
+    'id': 'Batalkan'
   },
   yes: {
     'en': 'Yes',
-    'id': 'Iya nih'
+    'id': 'OK'
+  },
+  browseUpdate: {
+    'en': 'Update with mobile data',
+    'id': 'Update dengan kuota data'
+  },
+  browseOnline: {
+    'en': 'You need to use mobile data to update the site, do you want to update?',
+    'id': 'Anda perlu menggunakan kuota untuk memuat kembali situs. Lanjutkan?'
   },
   browseMobile: {
     'en': 'Browse with mobile data',
-    'id': 'Isi dengan data seluler'
-  },
-  browseOnline: {
-    'en': 'You are switch off offline mode and continue browsing with mobile data. Once switched, the current page will reload and update, do you want to continue?',
-    'id': 'Anda matikan modus offline dan melanjutkan browsing dengan data seluler. Sekali switched, halaman ini akan reload dan update, apakah Anda ingin melanjutkan?'
+    'id': 'Akses pakai kuota'
   },
   browseLink: {
-    'en': 'You need to use mobile data to access to the link, do you want to leave offline mode and continue browsing with mobile data?',
-    'id': 'Anda perlu menggunakan mobile data untuk akses ke link, apakah Anda ingin meninggalkan secara offline modus dan melanjutkan browsing dengan data seluler?'
+    'en': 'You need to use mobile data to access the link, do you want to continue?',
+    'id': 'Anda perlu menggunakan kuota untuk memuat situs. Lanjutkan?'
   },
   settingsTitle :{
     'en': 'Settings',
-    'id': 'Pengaturan'
+    'id': 'Setelan'
   },
   settingsDataSaving :{
     'en': 'Data saving',
-    'id': 'Tabungan Data'
+    'id': 'Hemat data'
   },
   settingsBlock1 :{
     'en': 'Block ads and trackers',
-    'id': 'Blok iklan dan pelacak'
+    'id': 'Blokir iklan dan pelacak'
   },
   settingsBlock2 :{
     'en': 'Block Web fonts',
-    'id': 'font Web Blok'
+    'id': 'Blokir font'
   },
   settingsBlock3 :{
     'en': 'Block images while over cellular data',
-    'id': 'Blok gambar saat melalui data seluler'
+    'id': 'Blokir gambar ketika menggunakan kuota data'
   },
   settingsBlock4 :{
     'en': 'Block media autoplay',
-    'id': 'Media blok autoplay'
+    'id': 'Blokir video yang berjalan dengan sendirinya begitu halaman web terbuka'
   },
   settingsBlock5 :{
     'en': 'Block tab restore',
-    'id': 'Blok tab restore'
+    'id': 'Membuka kembali tab yang telah dibuka sebelumnya saat awal aplikasi'
   },
   settingsGeneral :{
     'en': 'General',
@@ -919,34 +989,34 @@ var strings = {
   },
   settingsLanguage :{
     'en': 'Browser language',
-    'id': 'Bahasa browser'
+    'id': 'Bahasa'
   },
   settingsSDefault :{
     'en': 'System default',
-    'id': 'Default sistem'
+    'id': 'Ikuti bahasa Android'
   },
   settingsSearch :{
     'en': 'Search',
-    'id': 'Pencarian'
+    'id': 'Situs pencarian'
   },
   settingsDefault :{
     'en': 'Default',
-    'id': 'Kegagalan'
+    'id': 'Utama'
   },
   settingsPrivacy :{
     'en': 'Privacy and storage',
-    'id': 'Privasi dan penyimpanan'
+    'id': 'Privasi dan penyimpanan data'
   },
   settingsClear :{
     'en': 'Clearing browsing data',
-    'id': 'Data penjelajahan kliring'
+    'id': 'Hapus data dan riwayat'
   },
   settingsSave :{
     'en': 'Save downloads / cache / offline pages to',
-    'id': 'Menyimpan download / halaman cache / offline untuk'
+    'id': 'Simpan download / cache / halaman di'
   },
   settingsCard :{
     'en': 'SD card',
-    'id': 'kartu SD'
-  },
+    'id': 'Memori eksternal / SD card'
+  }
 }
